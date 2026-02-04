@@ -1,4 +1,4 @@
-import { IApi, IOrder, IOrderQuery, IProduct } from "../../types";
+import { IApi, IOrder, IProductResponse, IProduct, IOrderResult } from "../../types";
 
 export class ApiServise {
     private api: IApi;
@@ -9,11 +9,11 @@ export class ApiServise {
     // получение списка товаров с сервера
     getProductList(): Promise<IProduct[]> {
         return this.api
-        .get<IOrderQuery>('/product/')
+        .get<IProductResponse>('/product/')
         .then((query) => query.items);
     }
     // отправка заказа на сервер
-    createOrder(data: IOrder): Promise<IOrder> {
-        return this.api.post('/order/', data)
+    createOrder(data: IOrder): Promise<IOrderResult> {
+        return this.api.post<IOrderResult>('/order/', data)
     }
 }

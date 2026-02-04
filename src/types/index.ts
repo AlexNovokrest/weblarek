@@ -23,11 +23,17 @@ export interface IBuyer {
 
 export type TPayment = "cash" | "card" | null;
 
-export interface IOrderQuery {
+export interface IProductResponse {
   items: IProduct[];
+  total: number;
 }
 
-export interface IOrder {
-  buyer: IBuyer;
-  products: IProduct[];
+export interface IOrder extends IBuyer{
+  items: string[];
+  total: number;
+}
+
+export interface IOrderResult {
+  id: string;
+  total: number;
 }

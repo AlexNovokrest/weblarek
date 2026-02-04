@@ -5,20 +5,27 @@ import { Buyer } from './components/models/Buyer';
 import { Catalog } from './components/models/Catalog';
 
 import { Api } from './components/base/Api';
-import { ApiServise } from './components/service/Api.ts';
+import { ApiServise } from './components/service/ApiServise.ts';
 import { API_URL } from './utils/constants';
 import { apiProducts } from './utils/data';
 
 const newCatalog = new Catalog();
 newCatalog.setItems(apiProducts.items);
-console.log('Массив товаров из каталога: ', newCatalog.getItems())
+console.log('Массив товаров из каталога: ', newCatalog.getItems());
+newCatalog.setSelectedItem(apiProducts.items[0]);
+console.log('Установка выбранного элемента: ', newCatalog.getSelectedItems());
+console.log('Поиск элемента по id: ', newCatalog.getItemById('854cef69-976d-4c2a-a18c-2aa45046c390'))
+
 
 const newBasket = new Basket();
 newBasket.addItem(apiProducts.items[1]);
-console.log('test basket items', newBasket.getItems());
-console.log('test basket price', newBasket.getTotalPrice());
+newBasket.addItem(apiProducts.items[0]);
+console.log('Товары в корзине: ', newBasket.getItems());
+console.log('Сумма товаров в корзине: ', newBasket.getTotalPrice());
+console.log('Количество товаров в корзине: ', newBasket.getCount());
+console.log('Наличие товара в корзине по его id: ', newBasket.hasItem('854cef69-976d-4c2a-a18c-2aa45046c390'))
 newBasket.clear();
-console.log('test basket', newBasket.getItems());
+console.log('Товары в корзине восле очистки: ', newBasket.getItems());
 
 const newBuyer = new Buyer();
 newBuyer.setData({
