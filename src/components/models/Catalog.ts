@@ -19,7 +19,7 @@ export class Catalog {
     }
 
     // сохранение товара для подробного отображения
-    setSelectedItem(item : IProduct): void {
+    setSelectedItem(item : IProduct | null): void {
         this.selectedItem = item;
         if (item) {
             this.events.emit('preview:changed', item)

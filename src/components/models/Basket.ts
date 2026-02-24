@@ -50,7 +50,7 @@ export class Basket {
         return this.items.some(item => item.id === id)
     }
 
-    getItemId(): string[] {
+    getItemIds(): string[] {
         return this.items.map(item => item.id);
     }
 }

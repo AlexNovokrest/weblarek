@@ -53,6 +53,14 @@ const success = new Success(cloneTemplate(successTemplate), {
     onClick: () => modal.close()
 });
 
+const processCardImage = (item: IProduct): IProduct => {
+    return {
+        ...item,
+        image: CDN_URL + item.image
+    };
+};
+
+
 events.on('order:update', () => {
     const buyer = buyerModel.getData();
     const errors = buyerModel.validate();
@@ -90,10 +98,7 @@ events.on('catalog:changed', () => {
         const card = new CardCatalog(cloneTemplate(cardCatalogTemplate), {
             onClick: () => events.emit('card:select', item)
         });
-        return card.render({
-            ...item,
-            image: CDN_URL + item.image
-        });
+        return card.render(processCardImage(item));
     });
 
     gallery.render({ catalog: itemCard});
@@ -125,9 +130,8 @@ events.on('preview:changed', (item: IProduct) => {
 
     modal.render({
         content: card.render({
-            ...item,
-            image: CDN_URL + item.image,
-            buttonText: inCart ? 'Удалить из корзины' : 'В корзину',
+            ...processCardImage(item),
+            buttonText: item.price === null ? 'Недоступно' : (inCart ? 'Удалить из корзины' : 'В корзину'),
             buttonDisabled: item.price === null
         })
     });
@@ -188,7 +192,7 @@ events.on('contacts:submit', () => {
     const orderData: IOrder = {
         ...buyerModel.getData(),
         total: basketModel.getTotalPrice(),
-        items: basketModel.getItemId()
+        items: basketModel.getItemIds()
     };
 
     larekApi.createOrder(orderData)
