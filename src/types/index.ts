@@ -21,7 +21,7 @@ export interface IBuyer {
   address: string;
 }
 
-export type TPayment = "cash" | "card" | null;
+export type TPayment = "cash" | "card" | '';
 
 export interface IProductResponse {
   items: IProduct[];
@@ -36,4 +36,54 @@ export interface IOrder extends IBuyer{
 export interface IOrderResult {
   id: string;
   total: number;
+}
+
+export interface IHeader {
+  counter: number;
+}
+
+export interface ICardActions {
+  onClick?: () => void;
+}
+
+export interface ICard {
+  id: string;
+  title: string;
+  price: number | null;
+}
+
+export interface IBasket {
+  items: HTMLElement[];
+  total: number;
+}
+
+export interface IGallery {
+  catalog: HTMLElement[];
+}
+
+export interface IFormStatus {
+  valid: boolean;
+  errors: string;
+}
+
+export interface IFormContacts {
+  email: string;
+  phone: string;
+}
+
+export interface IFormOrder {
+  payment: string;
+  address: string;
+}
+
+export interface IModal {
+  content: HTMLElement;
+}
+
+export interface ISuccess {
+  total: number;
+}
+
+export interface ISuccessAction {
+  onClick: () => void;
 }

@@ -1,28 +1,19 @@
 import { IBuyer, TPayment } from '../../types';
+import { IEvents } from '../base/Events';
 
 export class Buyer {
-    
-    private payment: TPayment | null;
-    private address: string;
-    private phone: string;
-    private email: string;
+    private payment: TPayment = '';
+    private address: string = '';
+    private phone: string = '';
+    private email: string = '';
 
-    constructor() {
-        this.payment = null;
-        this.address = "";
-        this.phone = "";
-        this.email = "";
+    constructor(protected events: IEvents) {}
+
+    setField(field: keyof IBuyer, value: string): void {
+    (this as Record<string, unknown>)[field] = value;
+    this.events.emit('order:update');
     }
 
-    // сохранение данных в модели
-    setData(data: Partial<IBuyer>): void {
-        if (data.payment !== undefined) this.payment = data.payment;
-        if (data.address !== undefined) this.address = data.address;
-        if (data.phone !== undefined) this.phone = data.phone;
-        if (data.email !== undefined) this.email = data.email;
-    }
-
-    // получение всех данных покупателя
     getData(): IBuyer {
         return {
             payment: this.payment,
@@ -32,15 +23,14 @@ export class Buyer {
         }
     }
 
-    // очистка данных покупателя
     clear(): void {
-        this.payment = null; 
+        this.payment = ""; 
         this.address = "";
         this.phone = "";
         this.email = "";
+        this.events.emit('order:update');
     }
 
-    // валидация данных
     validate(): { [key: string]: string } {
         const error: { [key: string]: string} = {};
         if (!this.payment) {error.payment = 'Необходимо указать способ оплаты';}
@@ -49,6 +39,9 @@ export class Buyer {
         if (!this.email.trim()) {error.email = 'Необходимо указать email';}
         return error;
     }
-
+    
+    isValid(): boolean {
+        return Object.keys(this.validate()).length === 0;
+    }
 }
 
